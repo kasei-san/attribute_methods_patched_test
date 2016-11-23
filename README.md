@@ -1,24 +1,32 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+rails5にて、model の `#[]` で enum を参照すると、今までは数値だったのが文字列で返ってくる修正を元に戻すパッチの動作確認
+パッチの内容は
+https://github.com/kasei-san/attribute_methods_patched_test/commit/e1e28981ea10e5ba71a958820c2e896186793c81
+を参照
 
-Things you may want to cover:
+# 使い方
 
-* Ruby version
+```
+$ git clone https://github.com/kasei-san/attribute_methods_patched_test
+$ cd attribute_methods_patched_test
+$ bundle install --path vendor/bundle
+$ rake db:migrate
+$ rake db:seed
+$ rails c
+```
 
-* System dependencies
+```.ruby
+Test.first[:status] # => 1
+```
 
-* Configuration
+## パッチを当てない場合の動作を確認
 
-* Database creation
 
-* Database initialization
+```
+$ rm lib/patch.rb
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```.ruby
+Test.first[:status] # => :active
+```
